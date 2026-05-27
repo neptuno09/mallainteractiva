@@ -299,31 +299,56 @@
         }
 
         // --- CARGA DE DATOS ---
-        async function cargarDatos() {
-            try {
-                // -----------------------------------------------------------
-                // PARA USAR ARCHIVOS REALES DESCOMENTA LAS LINEAS SIGUIENTES:
-                // -----------------------------------------------------------
-                
-                const respMalla = await fetch('malla.json');
-                DATOS_MALLA = await respMalla.json();
-                
-                const respColores = await fetch('sectores.json');
-                COLORES_SECTORES = await respColores.json();
-                
+        // --- CARGA DE DATOS ---
+async function cargarDatos() {
+    // 1. Extraer el parámetro 'id' de la URL
+    const parametrosURL = new URLSearchParams(window.location.search);
+    const idEstudiante = parametrosURL.get('id');
+    
+    // 2. Construir la ruta del archivo
+    let rutaMalla = 'data/default.json'; // Ruta por defecto
+    if (idEstudiante) {
+        rutaMalla = `data/${idEstudiante}_malla.json`;
+    }
+
+    try {
+        // 3. Intentar cargar el archivo del estudiante
+        let respMalla = await fetch(rutaMalla);
+        
+        // 4. Manejo de errores: Si no se encuentra el archivo (ej. 404), intentar con default.json
+        if (!respMalla.ok) {
+            console.warn(`No se encontró el archivo: ${rutaMalla}. Cayendo al respaldo default.json...`);
+            respMalla = await fetch('data/default.json');
             
-                // Por defecto, usamos los datos de ejemplo:
-                if (!DATOS_MALLA) DATOS_MALLA = EJEMPLO_MALLA;
-                if (!COLORES_SECTORES) COLORES_SECTORES = EJEMPLO_COLORES;
-
-                ID_CARRERA = DATOS_MALLA.codigo_carrera;
-                document.getElementById('titulo-carrera').textContent = DATOS_MALLA.carrera;
-
-            } catch (error) {
-                console.error("Error cargando datos:", error);
-                alert("Error cargando la configuración de la malla.");
-            }
+            // Si el default tampoco existe, lanzamos un error para ir al catch
+            if (!respMalla.ok) throw new Error("No se encontró el archivo por defecto (default.json).");
         }
+
+        // Si llegamos aquí, el fetch fue exitoso
+        DATOS_MALLA = await respMalla.json();
+        
+        // Cargar sectores.json (asumo que se mantiene igual para todos)
+        const respColores = await fetch('sectores.json');
+        if (respColores.ok) {
+            COLORES_SECTORES = await respColores.json();
+        } else {
+            console.warn("No se encontró sectores.json, se usarán los colores por defecto.");
+        }
+
+    } catch (error) {
+        // 5. Fallback final: Si no hay red o faltan los archivos, usar los datos de EJEMPLO
+        console.error("Error al realizar el fetch de los datos:", error.message);
+        console.log("Cargando datos de respaldo (EJEMPLO_MALLA)...");
+    } finally {
+        // 6. Asegurar que las variables globales tengan datos (ya sean los del fetch o los de ejemplo)
+        if (!DATOS_MALLA) DATOS_MALLA = EJEMPLO_MALLA;
+        if (!COLORES_SECTORES) COLORES_SECTORES = EJEMPLO_COLORES;
+
+        // Actualizar variables de estado e interfaz
+        ID_CARRERA = DATOS_MALLA.codigo_carrera;
+        document.getElementById('titulo-carrera').textContent = DATOS_MALLA.carrera;
+    }
+}
 
         // --- LÓGICA DE VISUALIZACIÓN ---
 
