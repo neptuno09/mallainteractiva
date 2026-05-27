@@ -119,7 +119,7 @@
             transition: all 0.2s ease;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start; /* Ajustado al quitar el footer */
             min-height: 80px;
             border: 2px solid transparent;
             user-select: none;
@@ -143,14 +143,6 @@
             font-size: 0.9rem;
             line-height: 1.2;
             margin-bottom: 6px;
-        }
-
-        .materia-footer {
-            font-size: 0.75rem;
-            align-self: flex-end;
-            background: rgba(255,255,255,0.3);
-            padding: 2px 6px;
-            border-radius: 4px;
         }
 
         /* --- Estados de la Materia --- */
@@ -211,28 +203,23 @@
 </head>
 <body>
 
-    <!-- Pantalla de Bienvenida -->
     <div id="welcome-screen" onclick="ocultarBienvenida()">
         <h1>Mi Malla Curricular</h1>
         <p>Visualiza tu progreso académico</p>
         <span class="hint">Haz clic en cualquier lugar para comenzar</span>
     </div>
 
-    <!-- Cabecera / Stats -->
     <header>
         <h2 id="titulo-carrera">Cargando carrera...</h2>
         <div class="stats-container">
             <div class="stat-box">Aprobadas: <span id="stat-aprobadas" class="stat-value">0</span> / <span id="stat-total">0</span></div>
-            <div class="stat-box">Créditos: <span id="stat-creditos" class="stat-value">0</span></div>
             <div class="stat-box">Avance: <span id="stat-porcentaje" class="stat-value">0%</span></div>
         </div>
         <button id="reset-btn" onclick="reiniciarProgreso()">Reiniciar Progreso</button>
     </header>
 
-    <!-- Contenedor Principal (Grid de Materias) -->
     <div id="malla-container">
-        <!-- Se genera dinámicamente con JS -->
-    </div>
+        </div>
 
     <script>
         // --- CONFIGURACIÓN Y ESTADO GLOBAL ---
@@ -250,26 +237,26 @@
             "codigo_carrera": "ING_SYS_DEMO_01",
             "semestres": [
                 [
-                    { "codigo": "MAT101", "nombre": "Cálculo Diferencial", "creditos": 5, "sector": "Ciencias", "prerequisitos": [] },
-                    { "codigo": "COM101", "nombre": "Comunicación Oral", "creditos": 3, "sector": "Humanidades", "prerequisitos": [] },
-                    { "codigo": "PROG1", "nombre": "Fundamentos de Programación", "creditos": 6, "sector": "Programacion", "prerequisitos": [] }
+                    { "codigo": "MAT101", "nombre": "Cálculo Diferencial", "sector": "Ciencias", "prerequisitos": [] },
+                    { "codigo": "COM101", "nombre": "Comunicación Oral", "sector": "Humanidades", "prerequisitos": [] },
+                    { "codigo": "PROG1", "nombre": "Fundamentos de Programación", "sector": "Programacion", "prerequisitos": [] }
                 ],
                 [
-                    { "codigo": "MAT102", "nombre": "Cálculo Integral", "creditos": 5, "sector": "Ciencias", "prerequisitos": ["MAT101"] },
-                    { "codigo": "FIS101", "nombre": "Física Mecánica", "creditos": 4, "sector": "Ciencias", "prerequisitos": ["MAT101"] },
-                    { "codigo": "PROG2", "nombre": "Programación Orientada a Objetos", "creditos": 6, "sector": "Programacion", "prerequisitos": ["PROG1"] }
+                    { "codigo": "MAT102", "nombre": "Cálculo Integral", "sector": "Ciencias", "prerequisitos": ["MAT101"] },
+                    { "codigo": "FIS101", "nombre": "Física Mecánica", "sector": "Ciencias", "prerequisitos": ["MAT101"] },
+                    { "codigo": "PROG2", "nombre": "Programación Orientada a Objetos", "sector": "Programacion", "prerequisitos": ["PROG1"] }
                 ],
                 [
-                    { "codigo": "MAT201", "nombre": "Ecuaciones Diferenciales", "creditos": 4, "sector": "Ciencias", "prerequisitos": ["MAT102"] },
-                    { "codigo": "ESTD", "nombre": "Estructuras de Datos", "creditos": 5, "sector": "Programacion", "prerequisitos": ["PROG2"] },
-                    { "codigo": "BD1", "nombre": "Bases de Datos I", "creditos": 4, "sector": "Ingenieria", "prerequisitos": ["PROG2"] }
+                    { "codigo": "MAT201", "nombre": "Ecuaciones Diferenciales", "sector": "Ciencias", "prerequisitos": ["MAT102"] },
+                    { "codigo": "ESTD", "nombre": "Estructuras de Datos", "sector": "Programacion", "prerequisitos": ["PROG2"] },
+                    { "codigo": "BD1", "nombre": "Bases de Datos I", "sector": "Ingenieria", "prerequisitos": ["PROG2"] }
                 ],
                 [
-                    { "codigo": "INGSOFT", "nombre": "Ingeniería de Software", "creditos": 4, "sector": "Ingenieria", "prerequisitos": ["BD1"] },
-                    { "codigo": "ALG", "nombre": "Análisis de Algoritmos", "creditos": 4, "sector": "Programacion", "prerequisitos": ["ESTD", "MAT102"] }
+                    { "codigo": "INGSOFT", "nombre": "Ingeniería de Software", "sector": "Ingenieria", "prerequisitos": ["BD1"] },
+                    { "codigo": "ALG", "nombre": "Análisis de Algoritmos", "sector": "Programacion", "prerequisitos": ["ESTD", "MAT102"] }
                 ],
                 [
-                    { "codigo": "PROY", "nombre": "Proyecto Final", "creditos": 10, "sector": "Proyecto", "prerequisitos": ["INGSOFT", "ALG"] }
+                    { "codigo": "PROY", "nombre": "Proyecto Final", "sector": "Proyecto", "prerequisitos": ["INGSOFT", "ALG"] }
                 ]
             ]
         };
@@ -299,56 +286,55 @@
         }
 
         // --- CARGA DE DATOS ---
-        // --- CARGA DE DATOS ---
-async function cargarDatos() {
-    // 1. Extraer el parámetro 'id' de la URL
-    const parametrosURL = new URLSearchParams(window.location.search);
-    const idEstudiante = parametrosURL.get('id');
-    
-    // 2. Construir la ruta del archivo
-    let rutaMalla = 'data/default.json'; // Ruta por defecto
-    if (idEstudiante) {
-        rutaMalla = `data/${idEstudiante}_malla.json`;
-    }
-
-    try {
-        // 3. Intentar cargar el archivo del estudiante
-        let respMalla = await fetch(rutaMalla);
-        
-        // 4. Manejo de errores: Si no se encuentra el archivo (ej. 404), intentar con default.json
-        if (!respMalla.ok) {
-            console.warn(`No se encontró el archivo: ${rutaMalla}. Cayendo al respaldo default.json...`);
-            respMalla = await fetch('data/default.json');
+        async function cargarDatos() {
+            // 1. Extraer el parámetro 'id' de la URL
+            const parametrosURL = new URLSearchParams(window.location.search);
+            const idEstudiante = parametrosURL.get('id');
             
-            // Si el default tampoco existe, lanzamos un error para ir al catch
-            if (!respMalla.ok) throw new Error("No se encontró el archivo por defecto (default.json).");
+            // 2. Construir la ruta del archivo
+            let rutaMalla = 'data/default.json'; // Ruta por defecto
+            if (idEstudiante) {
+                rutaMalla = `data/${idEstudiante}_malla.json`;
+            }
+
+            try {
+                // 3. Intentar cargar el archivo del estudiante
+                let respMalla = await fetch(rutaMalla);
+                
+                // 4. Manejo de errores: Si no se encuentra el archivo (ej. 404), intentar con default.json
+                if (!respMalla.ok) {
+                    console.warn(`No se encontró el archivo: ${rutaMalla}. Cayendo al respaldo default.json...`);
+                    respMalla = await fetch('data/default.json');
+                    
+                    // Si el default tampoco existe, lanzamos un error para ir al catch
+                    if (!respMalla.ok) throw new Error("No se encontró el archivo por defecto (default.json).");
+                }
+
+                // Si llegamos aquí, el fetch fue exitoso
+                DATOS_MALLA = await respMalla.json();
+                
+                // Cargar sectores.json (asumo que se mantiene igual para todos)
+                const respColores = await fetch('sectores.json');
+                if (respColores.ok) {
+                    COLORES_SECTORES = await respColores.json();
+                } else {
+                    console.warn("No se encontró sectores.json, se usarán los colores por defecto.");
+                }
+
+            } catch (error) {
+                // 5. Fallback final: Si no hay red o faltan los archivos, usar los datos de EJEMPLO
+                console.error("Error al realizar el fetch de los datos:", error.message);
+                console.log("Cargando datos de respaldo (EJEMPLO_MALLA)...");
+            } finally {
+                // 6. Asegurar que las variables globales tengan datos (ya sean los del fetch o los de ejemplo)
+                if (!DATOS_MALLA) DATOS_MALLA = EJEMPLO_MALLA;
+                if (!COLORES_SECTORES) COLORES_SECTORES = EJEMPLO_COLORES;
+
+                // Actualizar variables de estado e interfaz
+                ID_CARRERA = DATOS_MALLA.codigo_carrera;
+                document.getElementById('titulo-carrera').textContent = DATOS_MALLA.carrera;
+            }
         }
-
-        // Si llegamos aquí, el fetch fue exitoso
-        DATOS_MALLA = await respMalla.json();
-        
-        // Cargar sectores.json (asumo que se mantiene igual para todos)
-        const respColores = await fetch('sectores.json');
-        if (respColores.ok) {
-            COLORES_SECTORES = await respColores.json();
-        } else {
-            console.warn("No se encontró sectores.json, se usarán los colores por defecto.");
-        }
-
-    } catch (error) {
-        // 5. Fallback final: Si no hay red o faltan los archivos, usar los datos de EJEMPLO
-        console.error("Error al realizar el fetch de los datos:", error.message);
-        console.log("Cargando datos de respaldo (EJEMPLO_MALLA)...");
-    } finally {
-        // 6. Asegurar que las variables globales tengan datos (ya sean los del fetch o los de ejemplo)
-        if (!DATOS_MALLA) DATOS_MALLA = EJEMPLO_MALLA;
-        if (!COLORES_SECTORES) COLORES_SECTORES = EJEMPLO_COLORES;
-
-        // Actualizar variables de estado e interfaz
-        ID_CARRERA = DATOS_MALLA.codigo_carrera;
-        document.getElementById('titulo-carrera').textContent = DATOS_MALLA.carrera;
-    }
-}
 
         // --- LÓGICA DE VISUALIZACIÓN ---
 
@@ -398,7 +384,6 @@ async function cargarDatos() {
                     <span>${materia.codigo}</span>
                 </div>
                 <div class="materia-nombre">${materia.nombre}</div>
-                <div class="materia-footer">${materia.creditos} Cr.</div>
             `;
 
             div.onclick = () => toggleMateria(materia.codigo);
@@ -447,11 +432,6 @@ async function cargarDatos() {
                 card.classList.remove('aprobada', 'bloqueada', 'disponible');
 
                 if (esAprobada) {
-                    // Si ya se marcó como aprobada, visualmente se ve aprobada
-                    // NOTA: Incluso si ahora no cumple prerequisitos (porque desmarcaron una anterior),
-                    // la lógica simple suele ser: si está checkeada, está checkeada.
-                    // Pero para consistencia, si se rompe un prerequisito, idealmente debería bloquearse o advertirse.
-                    // Aquí: Si está aprobada, se muestra aprobada. Si se quiere estricto, verificar prereq aquí también.
                     card.classList.add('aprobada');
                 } else if (!prerequisitosCumplidos) {
                     card.classList.add('bloqueada');
@@ -462,19 +442,15 @@ async function cargarDatos() {
         }
 
         function actualizarEstadisticas() {
-            // Calcular total de materias y créditos en la malla
+            // Calcular total de materias
             let totalMaterias = 0;
-            let totalCreditos = 0;
             let materiasAprobadasCount = 0;
-            let creditosAprobadosCount = 0;
 
             DATOS_MALLA.semestres.flat().forEach(mat => {
                 totalMaterias++;
-                totalCreditos += mat.creditos;
 
                 if (ESTADO_USUARIO.aprobadas.includes(mat.codigo)) {
                     materiasAprobadasCount++;
-                    creditosAprobadosCount += mat.creditos;
                 }
             });
 
@@ -482,7 +458,6 @@ async function cargarDatos() {
 
             document.getElementById('stat-aprobadas').textContent = materiasAprobadasCount;
             document.getElementById('stat-total').textContent = totalMaterias;
-            document.getElementById('stat-creditos').textContent = creditosAprobadosCount;
             document.getElementById('stat-porcentaje').textContent = `${porcentaje}%`;
         }
 
