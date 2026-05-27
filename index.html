@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Curricular Interactiva</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --card-radius: 6px;
+            --locked-opacity: 0.5;
+            --locked-filter: grayscale(100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* --- Pantalla de Bienvenida --- */
+        #welcome-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+            transition: opacity 0.5s ease;
+        }
+        #welcome-screen h1 { font-size: 3rem; margin-bottom: 10px; }
+        #welcome-screen p { font-size: 1.2rem; }
+        #welcome-screen .hint { font-size: 0.9rem; margin-top: 20px; opacity: 0.7; }
+
+        /* --- Panel de Estadísticas --- */
+        header {
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            z-index: 10;
+        }
+
+        .stats-container {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+        }
+
+        .stat-box {
+            background: #eee;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .stat-value { font-weight: bold; color: #333; }
+        
+        button#reset-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        /* --- Contenedor de la Malla --- */
+        #malla-container {
+            flex: 1;
+            overflow: auto;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            /* Scroll horizontal suave */
+            scroll-behavior: smooth;
+        }
+
+        /* --- Columnas (Semestres) --- */
+        .semestre-col {
+            min-width: 160px;
+            max-width: 180px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .semestre-header {
+            text-align: center;
+            font-weight: bold;
+            color: #777;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        /* --- Tarjeta de Materia --- */
+        .materia {
+            position: relative;
+            padding: 10px;
+            border-radius: var(--card-radius);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 80px;
+            border: 2px solid transparent;
+            user-select: none;
+        }
+
+        .materia:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .materia-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+
+        .materia-nombre {
+            font-weight: 600;
+            font-size: 0.9rem;
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
+
+        .materia-footer {
+            font-size: 0.75rem;
+            align-self: flex-end;
+            background: rgba(255,255,255,0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* --- Estados de la Materia --- */
+        
+        /* 1. Aprobada */
+        .materia.aprobada {
+            opacity: 1 !important;
+            filter: none !important;
+            box-shadow: inset 0 0 0 2px rgba(255,255,255,0.8);
+        }
+        .materia.aprobada::after {
+            content: '✔';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: white;
+            color: green;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+
+        /* 2. Bloqueada (Prerrequisitos no cumplidos) */
+        .materia.bloqueada {
+            opacity: var(--locked-opacity);
+            filter: var(--locked-filter);
+            pointer-events: none; /* No click */
+            background-color: #ddd !important; /* Gris por defecto o mantener color base pero grisaceo */
+            color: #555;
+        }
+        .materia.bloqueada::before {
+            content: '🔒';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            opacity: 0.5;
+        }
+
+        /* 3. Disponible (Habilitada pero no cursada) */
+        .materia.disponible {
+            opacity: 0.9;
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 600px) {
+            header { flex-direction: column; gap: 10px; align-items: flex-start; }
+            .stats-container { flex-wrap: wrap; }
+            #malla-container { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pantalla de Bienvenida -->
+    <div id="welcome-screen" onclick="ocultarBienvenida()">
+        <h1>Mi Malla Curricular</h1>
+        <p>Visualiza tu progreso académico</p>
+        <span class="hint">Haz clic en cualquier lugar para comenzar</span>
+    </div>
+
+    <!-- Cabecera / Stats -->
+    <header>
+        <h2 id="titulo-carrera">Cargando carrera...</h2>
+        <div class="stats-container">
+            <div class="stat-box">Aprobadas: <span id="stat-aprobadas" class="stat-value">0</span> / <span id="stat-total">0</span></div>
+            <div class="stat-box">Créditos: <span id="stat-creditos" class="stat-value">0</span></div>
+            <div class="stat-box">Avance: <span id="stat-porcentaje" class="stat-value">0%</span></div>
+        </div>
+        <button id="reset-btn" onclick="reiniciarProgreso()">Reiniciar Progreso</button>
+    </header>
+
+    <!-- Contenedor Principal (Grid de Materias) -->
+    <div id="malla-container">
+        <!-- Se genera dinámicamente con JS -->
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN Y ESTADO GLOBAL ---
+        let DATOS_MALLA = null;
+        let COLORES_SECTORES = null;
+        let ESTADO_USUARIO = {
+            aprobadas: [] // Array de códigos de materias aprobadas
+        };
+        let ID_CARRERA = "default"; // Se actualizará con el JSON
+
+        // --- DATOS DE EJEMPLO (FALLBACK) ---
+        // Estos datos se usan si no se cargan archivos externos para que puedas probar el código.
+        const EJEMPLO_MALLA = {
+            "carrera": "Ingeniería en Sistemas Demo",
+            "codigo_carrera": "ING_SYS_DEMO_01",
+            "semestres": [
+                [
+                    { "codigo": "MAT101", "nombre": "Cálculo Diferencial", "creditos": 5, "sector": "Ciencias", "prerequisitos": [] },
+                    { "codigo": "COM101", "nombre": "Comunicación Oral", "creditos": 3, "sector": "Humanidades", "prerequisitos": [] },
+                    { "codigo": "PROG1", "nombre": "Fundamentos de Programación", "creditos": 6, "sector": "Programacion", "prerequisitos": [] }
+                ],
+                [
+                    { "codigo": "MAT102", "nombre": "Cálculo Integral", "creditos": 5, "sector": "Ciencias", "prerequisitos": ["MAT101"] },
+                    { "codigo": "FIS101", "nombre": "Física Mecánica", "creditos": 4, "sector": "Ciencias", "prerequisitos": ["MAT101"] },
+                    { "codigo": "PROG2", "nombre": "Programación Orientada a Objetos", "creditos": 6, "sector": "Programacion", "prerequisitos": ["PROG1"] }
+                ],
+                [
+                    { "codigo": "MAT201", "nombre": "Ecuaciones Diferenciales", "creditos": 4, "sector": "Ciencias", "prerequisitos": ["MAT102"] },
+                    { "codigo": "ESTD", "nombre": "Estructuras de Datos", "creditos": 5, "sector": "Programacion", "prerequisitos": ["PROG2"] },
+                    { "codigo": "BD1", "nombre": "Bases de Datos I", "creditos": 4, "sector": "Ingenieria", "prerequisitos": ["PROG2"] }
+                ],
+                [
+                    { "codigo": "INGSOFT", "nombre": "Ingeniería de Software", "creditos": 4, "sector": "Ingenieria", "prerequisitos": ["BD1"] },
+                    { "codigo": "ALG", "nombre": "Análisis de Algoritmos", "creditos": 4, "sector": "Programacion", "prerequisitos": ["ESTD", "MAT102"] }
+                ],
+                [
+                    { "codigo": "PROY", "nombre": "Proyecto Final", "creditos": 10, "sector": "Proyecto", "prerequisitos": ["INGSOFT", "ALG"] }
+                ]
+            ]
+        };
+
+        const EJEMPLO_COLORES = {
+            "Ciencias": "#3498db",
+            "Humanidades": "#e67e22",
+            "Programacion": "#9b59b6",
+            "Ingenieria": "#e74c3c",
+            "Proyecto": "#2ecc71",
+            "Default": "#95a5a6"
+        };
+
+        // --- INICIALIZACIÓN ---
+
+        window.onload = async () => {
+            await cargarDatos();
+            cargarProgreso();
+            renderizarMalla();
+            actualizarEstadisticas();
+        };
+
+        function ocultarBienvenida() {
+            const screen = document.getElementById('welcome-screen');
+            screen.style.opacity = '0';
+            setTimeout(() => screen.style.display = 'none', 500);
+        }
+
+        // --- CARGA DE DATOS ---
+        async function cargarDatos() {
+            try {
+                // -----------------------------------------------------------
+                // PARA USAR ARCHIVOS REALES DESCOMENTA LAS LINEAS SIGUIENTES:
+                // -----------------------------------------------------------
+                
+                const respMalla = await fetch('malla.json');
+                DATOS_MALLA = await respMalla.json();
+                
+                const respColores = await fetch('sectores.json');
+                COLORES_SECTORES = await respColores.json();
+                
+            
+                // Por defecto, usamos los datos de ejemplo:
+                if (!DATOS_MALLA) DATOS_MALLA = EJEMPLO_MALLA;
+                if (!COLORES_SECTORES) COLORES_SECTORES = EJEMPLO_COLORES;
+
+                ID_CARRERA = DATOS_MALLA.codigo_carrera;
+                document.getElementById('titulo-carrera').textContent = DATOS_MALLA.carrera;
+
+            } catch (error) {
+                console.error("Error cargando datos:", error);
+                alert("Error cargando la configuración de la malla.");
+            }
+        }
+
+        // --- LÓGICA DE VISUALIZACIÓN ---
+
+        function renderizarMalla() {
+            const container = document.getElementById('malla-container');
+            container.innerHTML = ''; // Limpiar
+
+            DATOS_MALLA.semestres.forEach((semestre, index) => {
+                // Crear columna
+                const col = document.createElement('div');
+                col.className = 'semestre-col';
+                
+                const header = document.createElement('div');
+                header.className = 'semestre-header';
+                header.textContent = `Semestre ${index + 1}`;
+                col.appendChild(header);
+
+                // Crear materias
+                semestre.forEach(materia => {
+                    const card = crearTarjetaMateria(materia);
+                    col.appendChild(card);
+                });
+
+                container.appendChild(col);
+            });
+            
+            // Aplicar estados iniciales (bloqueado/desbloqueado)
+            actualizarEstadosVisuales();
+        }
+
+        function crearTarjetaMateria(materia) {
+            const div = document.createElement('div');
+            div.className = 'materia';
+            div.id = `mat-${materia.codigo}`;
+            div.dataset.codigo = materia.codigo;
+            div.dataset.prereq = JSON.stringify(materia.prerequisitos || []);
+            
+            // Asignar color según sector
+            const colorSector = COLORES_SECTORES[materia.sector] || COLORES_SECTORES['Default'] || '#ccc';
+            div.style.backgroundColor = colorSector;
+            // Calcular contraste para texto (blanco o negro simple)
+            div.style.color = '#fff'; 
+            div.style.textShadow = '0 1px 2px rgba(0,0,0,0.3)';
+
+            div.innerHTML = `
+                <div class="materia-header">
+                    <span>${materia.codigo}</span>
+                </div>
+                <div class="materia-nombre">${materia.nombre}</div>
+                <div class="materia-footer">${materia.creditos} Cr.</div>
+            `;
+
+            div.onclick = () => toggleMateria(materia.codigo);
+
+            return div;
+        }
+
+        // --- LÓGICA DE INTERACCIÓN Y DEPENDENCIAS ---
+
+        function toggleMateria(codigo) {
+            const el = document.getElementById(`mat-${codigo}`);
+            
+            // Si está bloqueada, no hacer nada
+            if (el.classList.contains('bloqueada')) return;
+
+            const index = ESTADO_USUARIO.aprobadas.indexOf(codigo);
+            if (index > -1) {
+                // Estaba aprobada, la quitamos
+                ESTADO_USUARIO.aprobadas.splice(index, 1);
+            } else {
+                // No estaba aprobada, la agregamos
+                ESTADO_USUARIO.aprobadas.push(codigo);
+            }
+
+            guardarProgreso();
+            actualizarEstadosVisuales(); // Recalcular dependencias en cascada
+            actualizarEstadisticas();
+        }
+
+        function actualizarEstadosVisuales() {
+            // Obtener todas las tarjetas del DOM
+            const tarjetas = document.querySelectorAll('.materia');
+            
+            tarjetas.forEach(card => {
+                const codigo = card.dataset.codigo;
+                const prerequisitos = JSON.parse(card.dataset.prereq);
+                const esAprobada = ESTADO_USUARIO.aprobadas.includes(codigo);
+
+                // Verificar si cumple prerequisitos
+                let prerequisitosCumplidos = true;
+                if (prerequisitos.length > 0) {
+                    prerequisitosCumplidos = prerequisitos.every(req => ESTADO_USUARIO.aprobadas.includes(req));
+                }
+
+                // Resetear clases
+                card.classList.remove('aprobada', 'bloqueada', 'disponible');
+
+                if (esAprobada) {
+                    // Si ya se marcó como aprobada, visualmente se ve aprobada
+                    // NOTA: Incluso si ahora no cumple prerequisitos (porque desmarcaron una anterior),
+                    // la lógica simple suele ser: si está checkeada, está checkeada.
+                    // Pero para consistencia, si se rompe un prerequisito, idealmente debería bloquearse o advertirse.
+                    // Aquí: Si está aprobada, se muestra aprobada. Si se quiere estricto, verificar prereq aquí también.
+                    card.classList.add('aprobada');
+                } else if (!prerequisitosCumplidos) {
+                    card.classList.add('bloqueada');
+                } else {
+                    card.classList.add('disponible');
+                }
+            });
+        }
+
+        function actualizarEstadisticas() {
+            // Calcular total de materias y créditos en la malla
+            let totalMaterias = 0;
+            let totalCreditos = 0;
+            let materiasAprobadasCount = 0;
+            let creditosAprobadosCount = 0;
+
+            DATOS_MALLA.semestres.flat().forEach(mat => {
+                totalMaterias++;
+                totalCreditos += mat.creditos;
+
+                if (ESTADO_USUARIO.aprobadas.includes(mat.codigo)) {
+                    materiasAprobadasCount++;
+                    creditosAprobadosCount += mat.creditos;
+                }
+            });
+
+            const porcentaje = totalMaterias === 0 ? 0 : Math.round((materiasAprobadasCount / totalMaterias) * 100);
+
+            document.getElementById('stat-aprobadas').textContent = materiasAprobadasCount;
+            document.getElementById('stat-total').textContent = totalMaterias;
+            document.getElementById('stat-creditos').textContent = creditosAprobadosCount;
+            document.getElementById('stat-porcentaje').textContent = `${porcentaje}%`;
+        }
+
+        // --- PERSISTENCIA (LOCALSTORAGE) ---
+
+        function guardarProgreso() {
+            const key = `malla_progreso_${ID_CARRERA}`;
+            localStorage.setItem(key, JSON.stringify(ESTADO_USUARIO));
+        }
+
+        function cargarProgreso() {
+            const key = `malla_progreso_${ID_CARRERA}`;
+            const data = localStorage.getItem(key);
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    // Validar estructura básica
+                    if (parsed && Array.isArray(parsed.aprobadas)) {
+                        ESTADO_USUARIO = parsed;
+                    }
+                } catch (e) {
+                    console.error("Error leyendo guardado local, iniciando de cero.");
+                }
+            }
+        }
+
+        function reiniciarProgreso() {
+            if(confirm("¿Estás seguro de reiniciar todo el progreso?")) {
+                ESTADO_USUARIO.aprobadas = [];
+                guardarProgreso();
+                actualizarEstadosVisuales();
+                actualizarEstadisticas();
+            }
+        }
+    </script>
+</body>
+</html>

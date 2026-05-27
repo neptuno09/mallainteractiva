@@ -1,0 +1,14 @@
+{
+  "carrera": "Ingeniería de Software",
+  "codigo_carrera": "ING_SOFT_2024", 
+  "semestres": [
+    [
+      { "codigo": "MAT01", "nombre": "Cálculo I", "creditos": 5, "sector": "Ciencias Basicas", "prerequisitos": [] },
+      { "codigo": "PROG01", "nombre": "Introducción a la Programación", "creditos": 4, "sector": "Programacion", "prerequisitos": [] }
+    ],
+    [
+      { "codigo": "MAT02", "nombre": "Cálculo II", "creditos": 5, "sector": "Ciencias Basicas", "prerequisitos": ["MAT01"] },
+      { "codigo": "PROG02", "nombre": "Estructuras de Datos", "creditos": 6, "sector": "Programacion", "prerequisitos": ["PROG01"] }
+    ]
+  ]
+}
