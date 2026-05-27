@@ -365,30 +365,48 @@
             actualizarEstadosVisuales();
         }
 
-        function crearTarjetaMateria(materia) {
-            const div = document.createElement('div');
-            div.className = 'materia';
-            div.id = `mat-${materia.codigo}`;
-            div.dataset.codigo = materia.codigo;
-            div.dataset.prereq = JSON.stringify(materia.prerequisitos || []);
-            
-            // Asignar color aleatorio único para esta materia
-            div.style.backgroundColor = generarColorAleatorio();
-            div.style.color = '#fff'; 
-            // Aumentamos un poco la sombra del texto por si toca un color claro
-            div.style.textShadow = '0 1px 4px rgba(0,0,0,0.7)'; 
-
-            div.innerHTML = `
-                <div class="materia-header">
-                    <span>${materia.codigo}</span>
-                </div>
-                <div class="materia-nombre">${materia.nombre}</div>
-            `;
-
-            div.onclick = () => toggleMateria(materia.codigo);
-
-            return div;
+        function generarColorAleatorio() {
+        // Genera un color HSL con saturación y luminosidad controladas 
+        // para evitar colores demasiado oscuros o chillones.
+        const tono = Math.floor(Math.random() * 360);
+        return `hsl(${tono}, 70%, 45%)`; 
         }
+
+        function crearTarjetaMateria(materia) {
+    const div = document.createElement('div');
+    div.className = 'materia';
+    div.id = `mat-${materia.codigo}`;
+    div.dataset.codigo = materia.codigo;
+    div.dataset.prereq = JSON.stringify(materia.prerequisitos || []);
+    
+    // --- LÓGICA DE COLOR ALEATORIO POR SECTOR ---
+    // Si por alguna razón COLORES_SECTORES es null, lo inicializamos como un objeto vacío
+    if (!COLORES_SECTORES) COLORES_SECTORES = {};
+
+    // Si el sector de esta materia (ej: "Ciencias Basicas") NO tiene un color asignado todavía...
+    if (!COLORES_SECTORES[materia.sector]) {
+        // ...le generamos uno al azar y lo guardamos en el registro
+        COLORES_SECTORES[materia.sector] = generarColorAleatorio();
+    }
+
+    // Recuperamos el color asignado a este sector (sea nuevo o guardado previamente)
+    const colorSector = COLORES_SECTORES[materia.sector];
+    
+    div.style.backgroundColor = colorSector;
+    div.style.color = '#fff'; 
+    div.style.textShadow = '0 1px 3px rgba(0,0,0,0.6)';
+
+    div.innerHTML = `
+        <div class="materia-header">
+            <span>${materia.codigo}</span>
+        </div>
+        <div class="materia-nombre">${materia.nombre}</div>
+    `;
+
+    div.onclick = () => toggleMateria(materia.codigo);
+
+    return div;
+}
 
         // --- LÓGICA DE INTERACCIÓN Y DEPENDENCIAS ---
 
@@ -492,12 +510,7 @@
             }
         }
 
-        function generarColorAleatorio() {
-        // Genera un color HSL con saturación y luminosidad controladas 
-        // para evitar colores demasiado oscuros o chillones.
-        const tono = Math.floor(Math.random() * 360);
-        return `hsl(${tono}, 70%, 45%)`; 
-        }
+        
 
         
     </script>
