@@ -1,14 +1,79 @@
 {
-  "carrera": "Ingeniería de Softasdsaddware",
-  "codigo_carrera": "ING_SOFT_20s24", 
+  "carrera": "Ingeniería en Informática",
+  "codigo_carrera": "201",
   "semestres": [
     [
-      { "codigo": "MAT01", "nombre": "Cálculo I", "sector": "Ciencias Basicas", "prerequisitos": [] },
-      { "codigo": "PROG01", "nombre": "Introducción a la Programación", "sector": "Programacion", "prerequisitos": [] }
+      { "codigo": "03621", "nombre": "MATEMATICA DISCRETA", "sector": "Ciencias Basicas", "prerequisitos": [] },
+      { "codigo": "03622", "nombre": "ANALISIS MATEMATICO I", "sector": "Ciencias Basicas", "prerequisitos": [] },
+      { "codigo": "03623", "nombre": "PROGRAMACION INICIAL", "sector": "Programacion", "prerequisitos": [] },
+      { "codigo": "03624", "nombre": "INTRODUCCION A LOS SISTEMAS DE INFORMACION", "sector": "Sistemas", "prerequisitos": [] },
+      { "codigo": "03625", "nombre": "SISTEMAS DE NUMERACION", "sector": "Sistemas", "prerequisitos": [] },
+      { "codigo": "03626", "nombre": "PRINCIPIOS DE CALIDAD DE SOFTWARE", "sector": "Ingenieria de Software", "prerequisitos": [] },
+      { "codigo": "00901", "nombre": "INGLES NIVEL I", "sector": "Idiomas", "prerequisitos": [] },
+      { "codigo": "00911", "nombre": "COMPUTACION NIVEL I", "sector": "Herramientas", "prerequisitos": [] },
+      { "codigo": "03627", "nombre": "ALGEBRA Y GEOMETRIA ANALITICA I", "sector": "Ciencias Basicas", "prerequisitos": [] },
+      { "codigo": "03628", "nombre": "FISICA I", "sector": "Ciencias Basicas", "prerequisitos": [] },
+      { "codigo": "03629", "nombre": "PROGRAMACION ESTRUCTURADA BASICA", "sector": "Programacion", "prerequisitos": ["03622", "03623"] },
+      { "codigo": "03630", "nombre": "INTRODUCCION A LA GESTION DE REQUISITOS", "sector": "Ingenieria de Software", "prerequisitos": ["03624"] },
+      { "codigo": "03631", "nombre": "FUNDAMENTOS DE SISTEMAS EMBEBIDOS", "sector": "Hardware", "prerequisitos": ["03625"] },
+      { "codigo": "03632", "nombre": "INTRODUCCION A LOS PROYECTOS INFORMATICOS", "sector": "Gestion", "prerequisitos": [] }
     ],
     [
-      { "codigo": "MAT02", "nombre": "Cálculo II", "sector": "Ciencias Basicas", "prerequisitos": ["MAT01"] },
-      { "codigo": "PROG02", "nombre": "Estructuras de Datos", "sector": "Programacion", "prerequisitos": ["PROG01"] }
+      { "codigo": "00902", "nombre": "INGLES NIVEL II", "sector": "Idiomas", "prerequisitos": ["00901"] },
+      { "codigo": "00912", "nombre": "COMPUTACION NIVEL II", "sector": "Herramientas", "prerequisitos": ["00911"] },
+      { "codigo": "03633", "nombre": "ANALISIS MATEMATICO II", "sector": "Ciencias Basicas", "prerequisitos": ["03622"] },
+      { "codigo": "03634", "nombre": "FISICA II", "sector": "Ciencias Basicas", "prerequisitos": ["03628"] },
+      { "codigo": "03635", "nombre": "TOPICOS DE PROGRAMACION", "sector": "Programacion", "prerequisitos": ["03621", "03629"] },
+      { "codigo": "03636", "nombre": "BASES DE DATOS", "sector": "Datos", "prerequisitos": ["03621", "03629"] },
+      { "codigo": "03637", "nombre": "ANALISIS DE SISTEMAS", "sector": "Sistemas", "prerequisitos": ["03630"] },
+      { "codigo": "03638", "nombre": "ARQUITECTURA DE COMPUTADORAS", "sector": "Hardware", "prerequisitos": ["03631"] },
+      { "codigo": "03676", "nombre": "RESPONSABILIDAD SOCIAL UNIVERSITARIA", "sector": "Social", "prerequisitos": ["03626"] },
+      { "codigo": "00903", "nombre": "INGLES NIVEL III", "sector": "Idiomas", "prerequisitos": ["00902"] },
+      { "codigo": "03639", "nombre": "ANALISIS MATEMATICO III", "sector": "Ciencias Basicas", "prerequisitos": ["03633"] },
+      { "codigo": "03640", "nombre": "ALGORITMOS Y ESTRUCTURAS DE DATOS", "sector": "Programacion", "prerequisitos": ["03635"] },
+      { "codigo": "03641", "nombre": "BASES DE DATOS APLICADAS", "sector": "Datos", "prerequisitos": ["03636", "03635"] },
+      { "codigo": "03642", "nombre": "PRINCIPIOS DE DISEÑO DE SISTEMAS", "sector": "Sistemas", "prerequisitos": ["03626", "03637"] },
+      { "codigo": "03643", "nombre": "REDES DE COMPUTADORAS", "sector": "Redes", "prerequisitos": ["03638"] },
+      { "codigo": "03644", "nombre": "GESTION DE LAS ORGANIZACIONES", "sector": "Gestion", "prerequisitos": ["03632"] },
+      { "codigo": "03680", "nombre": "TALLER DE INTEGRACION", "sector": "Integracion", "prerequisitos": ["03621", "03623", "03624", "03625", "03626", "03630", "03632", "03635", "03636", "03638"] },
+      { "codigo": "00904", "nombre": "INGLES NIVEL IV", "sector": "Idiomas", "prerequisitos": ["00903"] }
+    ],
+    [
+      { "codigo": "03645", "nombre": "ALGEBRA Y GEOMETRIA ANALITICA II", "sector": "Ciencias Basicas", "prerequisitos": ["03627"] },
+      { "codigo": "03646", "nombre": "PARADIGMAS DE PROGRAMACION", "sector": "Programacion", "prerequisitos": ["03633", "03640"] },
+      { "codigo": "03647", "nombre": "REQUISITOS AVANZADOS", "sector": "Ingenieria de Software", "prerequisitos": ["03642"] },
+      { "codigo": "03648", "nombre": "DISEÑO DE SOFTWARE", "sector": "Ingenieria de Software", "prerequisitos": ["03636", "03642", "03635"] },
+      { "codigo": "03649", "nombre": "SISTEMAS OPERATIVOS", "sector": "Sistemas", "prerequisitos": ["03638", "03629"] },
+      { "codigo": "03650", "nombre": "SEGURIDAD DE LA INFORMACION", "sector": "Seguridad", "prerequisitos": ["03635", "03638", "03643"] },
+      { "codigo": "03675", "nombre": "PRACTICA PROFESIONAL SUPERVISADA", "sector": "Practica", "prerequisitos": ["03642", "03636", "03640"] },
+      { "codigo": "03651", "nombre": "PROBABILIDAD Y ESTADISTICA", "sector": "Ciencias Basicas", "prerequisitos": ["03621", "03639", "03645"] },
+      { "codigo": "03652", "nombre": "PROGRAMACION AVANZADA", "sector": "Programacion", "prerequisitos": ["03646", "03641"] },
+      { "codigo": "03653", "nombre": "ARQUITECTURA DE SISTEMAS SOFTWARE", "sector": "Ingenieria de Software", "prerequisitos": ["03648"] },
+      { "codigo": "03654", "nombre": "VIRTUALIZACION DE HARDWARE", "sector": "Sistemas", "prerequisitos": ["03649", "03643"] },
+      { "codigo": "03655", "nombre": "AUDITORIA Y LEGISLACION", "sector": "Gestion", "prerequisitos": ["03650"] }
+    ],
+    [
+      { "codigo": "03656", "nombre": "ESTADISTICA APLICADA", "sector": "Ciencias Basicas", "prerequisitos": ["03651"] },
+      { "codigo": "03657", "nombre": "AUTOMATAS Y GRAMATICAS", "sector": "Ciencias Basicas", "prerequisitos": ["03646"] },
+      { "codigo": "03658", "nombre": "PROGRAMACION CONCURRENTE", "sector": "Programacion", "prerequisitos": ["03646", "03649"] },
+      { "codigo": "03659", "nombre": "GESTION APLICADA AL DESARROLLO DE SOFTWARE I", "sector": "Gestion", "prerequisitos": ["03644", "03647", "03648"] },
+      { "codigo": "03660", "nombre": "SISTEMAS OPERATIVOS AVANZADOS", "sector": "Sistemas", "prerequisitos": ["03654", "03634"] },
+      { "codigo": "03661", "nombre": "GESTION DE PROYECTOS", "sector": "Gestion", "prerequisitos": ["03644", "03650", "03651"] },
+      { "codigo": "03662", "nombre": "MATEMATICA APLICADA", "sector": "Ciencias Basicas", "prerequisitos": ["03651"] },
+      { "codigo": "03663", "nombre": "LENGUAJES Y COMPILADORES", "sector": "Programacion", "prerequisitos": ["03657"] },
+      { "codigo": "03664", "nombre": "INTELIGENCIA ARTIFICIAL", "sector": "Innovacion", "prerequisitos": ["03646", "03651"] },
+      { "codigo": "03665", "nombre": "GESTION APLICADA AL DESARROLLO DE SOFTWARE II", "sector": "Gestion", "prerequisitos": ["03659", "03653"] },
+      { "codigo": "03666", "nombre": "SEGURIDAD APLICADA Y FORENSIA", "sector": "Seguridad", "prerequisitos": ["03649", "03652", "03655"] },
+      { "codigo": "03667", "nombre": "GESTION DE LA CALIDAD EN PROCESOS DE SISTEMAS", "sector": "Gestion", "prerequisitos": ["03642", "03661"] }
+    ],
+    [
+      { "codigo": "03668", "nombre": "INTELIGENCIA ARTIFICIAL APLICADA", "sector": "Innovacion", "prerequisitos": ["03656", "03664"] },
+      { "codigo": "03669", "nombre": "INNOVACION Y EMPRENDEDORISMO", "sector": "Gestion", "prerequisitos": ["03661"] },
+      { "codigo": "03670", "nombre": "CIENCIA DE DATOS", "sector": "Datos", "prerequisitos": ["03656", "03664"] },
+      { "codigo": "03672", "nombre": "ELECTIVA I", "sector": "Electiva", "prerequisitos": [] },
+      { "codigo": "03673", "nombre": "ELECTIVA II", "sector": "Electiva", "prerequisitos": [] },
+      { "codigo": "03674", "nombre": "ELECTIVA III", "sector": "Electiva", "prerequisitos": [] },
+      { "codigo": "03671", "nombre": "PROYECTO FINAL DE CARRERA", "sector": "Integracion", "prerequisitos": ["03656", "03659", "03660", "03667"] }
     ]
   ]
 }
