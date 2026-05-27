@@ -1,0 +1,73 @@
+{
+  "carrera": "Odontología",
+  "codigo_carrera": "ODON-UBA",
+  "semestres": [
+    [
+      { "codigo": "CBC01", "nombre": "QUIMICA", "sector": "Ciencias Basicas", "prerequisitos": [] },
+      { "codigo": "CBC02", "nombre": "MATEMATICA", "sector": "Ciencias Basicas", "prerequisitos": [] },
+      { "codigo": "CBC03", "nombre": "FISICA E INTRODUCCION A LA BIOFISICA", "sector": "Ciencias Basicas", "prerequisitos": [] },
+      { "codigo": "CBC04", "nombre": "BIOLOGIA E INTRODUCCION A LA BIOLOGIA CELULAR", "sector": "Ciencias Basicas", "prerequisitos": [] },
+      { "codigo": "CBC05", "nombre": "INTRODUCCION AL CONOCIMIENTO DE LA SOCIEDAD Y EL ESTADO", "sector": "Social", "prerequisitos": [] },
+      { "codigo": "CBC06", "nombre": "INTRODUCCION AL PENSAMIENTO CIENTIFICO", "sector": "Social", "prerequisitos": [] }
+    ],
+    [
+      { "codigo": "N100", "nombre": "INGLES TECNICO", "sector": "Idiomas", "prerequisitos": ["CBC01", "CBC02", "CBC03", "CBC04", "CBC05", "CBC06"] },
+      { "codigo": "N101", "nombre": "ANATOMIA GENERAL Y ESTOMATOLOGICA", "sector": "Ciencias Basicas", "prerequisitos": ["CBC01", "CBC02", "CBC03", "CBC04", "CBC05", "CBC06"] },
+      { "codigo": "N102", "nombre": "BIOQUIMICA GENERAL", "sector": "Ciencias Basicas", "prerequisitos": ["CBC01", "CBC02", "CBC03", "CBC04", "CBC05", "CBC06"] },
+      { "codigo": "N103", "nombre": "HISTOLOGIA Y EMBRIOLOGIA", "sector": "Ciencias Basicas", "prerequisitos": ["CBC01", "CBC02", "CBC03", "CBC04", "CBC05", "CBC06"] },
+      { "codigo": "N105", "nombre": "INMUNOLOGIA Y MICROBIOLOGIA I", "sector": "Ciencias Basicas", "prerequisitos": ["N102", "N103"] },
+      { "codigo": "N106", "nombre": "BIOLOGIA BUCAL", "sector": "Ciencias Basicas", "prerequisitos": ["N102", "N103"] },
+      { "codigo": "N108", "nombre": "BIOFISICA APLICADA A LA PRACTICA ODONTOLOGICA", "sector": "Ciencias Basicas", "prerequisitos": ["N102"] },
+      { "codigo": "N110", "nombre": "INSERCION TEMPRANA EN LA CLINICA", "sector": "Preclinica", "prerequisitos": ["CBC01", "CBC02", "CBC03", "CBC04", "CBC05", "CBC06"] },
+      { "codigo": "N111", "nombre": "DIAGNOSTICO POR IMAGENES CON RADIOFISICA SANITARIA", "sector": "Preclinica", "prerequisitos": ["N103"] }
+    ],
+    [
+      { "codigo": "N201", "nombre": "FISIOLOGIA", "sector": "Ciencias Basicas", "prerequisitos": ["N106", "N108"] },
+      { "codigo": "N202", "nombre": "PATOLOGIA GENERAL", "sector": "Ciencias Basicas", "prerequisitos": ["N105", "N106"] },
+      { "codigo": "N203", "nombre": "MATERIALES DENTALES I", "sector": "Preclinica", "prerequisitos": ["N108"] },
+      { "codigo": "N204", "nombre": "PRECLINICA DE ODONTOLOGIA RESTAURADORA I", "sector": "Preclinica", "prerequisitos": ["N101", "N110", "N106"] },
+      { "codigo": "N206", "nombre": "ODONTOLOGIA PREVENTIVA Y MINIMAMENTE INVASIVA I", "sector": "Clinica", "prerequisitos": ["N101", "N105", "N106", "N110", "N111"] },
+      { "codigo": "N211", "nombre": "PRECLINICA QUIRURGICA Y ANESTESIA", "sector": "Preclinica", "prerequisitos": ["N101", "N110", "N105"] },
+      { "codigo": "N205", "nombre": "MICROBIOLOGIA II", "sector": "Ciencias Basicas", "prerequisitos": ["N105"] },
+      { "codigo": "N207", "nombre": "ODONTOLOGIA PREVENTIVA Y MINIMAMENTE INVASIVA II", "sector": "Clinica", "prerequisitos": ["N204", "N206", "N211"] },
+      { "codigo": "N208", "nombre": "PRECLINICA DE ODONTOLOGIA RESTAURADORA II", "sector": "Preclinica", "prerequisitos": ["N203", "N204", "N206"] },
+      { "codigo": "N209", "nombre": "ENDODONCIA I", "sector": "Clinica", "prerequisitos": ["N204", "N206", "N211"] },
+      { "codigo": "N210", "nombre": "PATOLOGIA BUCAL", "sector": "Ciencias Basicas", "prerequisitos": ["N202"] },
+      { "codigo": "N212", "nombre": "MATERIALES DENTALES II", "sector": "Preclinica", "prerequisitos": ["N203"] },
+      { "codigo": "N213", "nombre": "BIOETICA Y EJERCICIO PROFESIONAL", "sector": "Social", "prerequisitos": ["N110"] },
+      { "codigo": "N214", "nombre": "INTRODUCCION A LA PERIODONCIA", "sector": "Preclinica", "prerequisitos": ["N206"] }
+    ],
+    [
+      { "codigo": "N302", "nombre": "PRECLINICA DE REHABILITACION PROTETICA", "sector": "Preclinica", "prerequisitos": ["N208", "N212"] },
+      { "codigo": "N303", "nombre": "FARMACOLOGIA", "sector": "Ciencias Basicas", "prerequisitos": ["N201", "N202"] },
+      { "codigo": "N304", "nombre": "MEDICINA INTERNA EN LA PRACTICA ODONTOLOGICA", "sector": "Clinica", "prerequisitos": ["N201", "N210", "N110"] },
+      { "codigo": "N308", "nombre": "ENDODONCIA II", "sector": "Clinica", "prerequisitos": ["N205", "N207", "N210", "N208", "N209"] },
+      { "codigo": "N309", "nombre": "PERIODONCIA", "sector": "Clinica", "prerequisitos": ["N205", "N210", "N207", "N214"] },
+      { "codigo": "N310", "nombre": "ODONTOLOGIA RESTAURADORA", "sector": "Clinica", "prerequisitos": ["N207", "N208", "N212"] },
+      { "codigo": "N306", "nombre": "BIOESTADISTICA Y METODOLOGIA DE LA INVESTIGACION", "sector": "Investigacion", "prerequisitos": ["N100"] },
+      { "codigo": "N305", "nombre": "HISTORIA DE LA ODONTOLOGIA", "sector": "Social", "prerequisitos": ["CBC01", "CBC02", "CBC03", "CBC04", "CBC05", "CBC06"] },
+      { "codigo": "N311", "nombre": "CIRUGIA Y TRAUMATOLOGIA BUCOMAXILOFACIAL I", "sector": "Clinica", "prerequisitos": ["N205", "N207", "N210", "N211", "N201"] }
+    ],
+    [
+      { "codigo": "N401", "nombre": "ODONTOLOGIA REHABILITADORA INTEGRAL", "sector": "Clinica", "prerequisitos": ["N302", "N308", "N309", "N310"] },
+      { "codigo": "N402", "nombre": "CIRUGIA Y TRAUMATOLOGIA BUCOMAXILOFACIAL II", "sector": "Clinica", "prerequisitos": ["N303", "N304", "N311"] },
+      { "codigo": "N403", "nombre": "ODONTOLOGIA INTEGRAL NIÑOS Y ADOLESCENTES", "sector": "Clinica", "prerequisitos": ["N303", "N304", "N308", "N309", "N310", "N311"] },
+      { "codigo": "N405", "nombre": "MATERIALES DENTALES III", "sector": "Preclinica", "prerequisitos": ["N302", "N310"] },
+      { "codigo": "N407", "nombre": "DIAGNOSTICO POR IMAGENES II", "sector": "Clinica", "prerequisitos": ["N311"] },
+      { "codigo": "N404", "nombre": "MEDICINA BUCAL I", "sector": "Clinica", "prerequisitos": ["N304", "N303"] },
+      { "codigo": "N409", "nombre": "EPIDEMIOLOGIA Y SALUD DE LAS POBLACIONES", "sector": "Salud Publica", "prerequisitos": ["N207", "N306"] }
+    ],
+    [
+      { "codigo": "N501", "nombre": "ODONTOLOGIA INTEGRAL ADULTOS (PPS)", "sector": "Clinica", "prerequisitos": ["N401", "N402", "N404", "N405"] },
+      { "codigo": "N503", "nombre": "ARTICULACION DOCENCIA-SERVICIO INVESTIGACION (PRACTICA SOCIAL EDUCATIVA)", "sector": "Social", "prerequisitos": ["N403", "N409"] },
+      { "codigo": "N506", "nombre": "ORTODONCIA I", "sector": "Clinica", "prerequisitos": ["N403", "N407"] },
+      { "codigo": "N504", "nombre": "MEDICINA BUCAL II", "sector": "Clinica", "prerequisitos": ["N404"] },
+      { "codigo": "N502", "nombre": "CIRUGIA Y TRAUMATOLOGIA BUCOMAXILOFACIAL III", "sector": "Clinica", "prerequisitos": ["N402", "N404"] },
+      { "codigo": "N507", "nombre": "ODONTOLOGIA FORENSE", "sector": "Social", "prerequisitos": ["N213", "N401"] },
+      { "codigo": "N508", "nombre": "SISTEMA DE SALUD Y GESTION CLINICA", "sector": "Salud Publica", "prerequisitos": ["N409", "N507"] },
+      { "codigo": "N509", "nombre": "ODONTOLOGIA INTEGRAL PARA EL ADULTO MAYOR", "sector": "Clinica", "prerequisitos": ["N401", "N404"] },
+      { "codigo": "ELECT", "nombre": "MODULO ELECTIVO ASISTENCIAL ORIENTADO", "sector": "Electiva", "prerequisitos": [] },
+      { "codigo": "OPT", "nombre": "ASIGNATURA OPTATIVA", "sector": "Optativa", "prerequisitos": [] }
+    ]
+  ]
+}
