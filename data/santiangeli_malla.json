@@ -1,0 +1,52 @@
+{
+  "carrera": "Contador Público",
+  "codigo_carrera": "102",
+  "semestres": [
+    [
+      { "codigo": "02400", "nombre": "MATEMATICA I", "sector": "Matemática", "prerequisitos": [] },
+      { "codigo": "02404", "nombre": "HISTORIA ECONOMICA SOCIAL Y CONTEMPORANEA", "sector": "Economía", "prerequisitos": [] },
+      { "codigo": "02405", "nombre": "ADMINISTRACION GENERAL", "sector": "Gestión", "prerequisitos": [] },
+      { "codigo": "00911", "nombre": "COMPUTACION NIVEL I", "sector": "Herramientas", "prerequisitos": [] },
+      { "codigo": "02401", "nombre": "CONTABILIDAD BASICA", "sector": "Contabilidad", "prerequisitos": [] },
+      { "codigo": "02402", "nombre": "DERECHO PUBLICO", "sector": "Derecho", "prerequisitos": [] },
+      { "codigo": "02403", "nombre": "INTRODUCCION AL CONOCIMIENTO CIENTIFICO", "sector": "Humanidades", "prerequisitos": [] }
+    ],
+    [
+      { "codigo": "00901", "nombre": "INGLES NIVEL I", "sector": "Idiomas", "prerequisitos": [] },
+      { "codigo": "02406", "nombre": "MATEMATICA II", "sector": "Matemática", "prerequisitos": ["02400"] },
+      { "codigo": "02409", "nombre": "DERECHO CIVIL", "sector": "Derecho", "prerequisitos": ["02402"] },
+      { "codigo": "02411", "nombre": "ECONOMIA GENERAL", "sector": "Economía", "prerequisitos": ["02400", "02404"] },
+      { "codigo": "00902", "nombre": "INGLES NIVEL II", "sector": "Idiomas", "prerequisitos": ["00901"] },
+      { "codigo": "02408", "nombre": "TECNICAS DE VALUACION", "sector": "Contabilidad", "prerequisitos": ["02401"] },
+      { "codigo": "02413", "nombre": "DERECHO COMERCIAL I", "sector": "Derecho", "prerequisitos": ["02409"] },
+      { "codigo": "02416", "nombre": "MACROECONOMIA", "sector": "Economía", "prerequisitos": ["02406", "02411"] }
+    ],
+    [
+      { "codigo": "02407", "nombre": "ESTADISTICA", "sector": "Matemática", "prerequisitos": ["02400"] },
+      { "codigo": "02410", "nombre": "ELEMENTOS DE COSTOS", "sector": "Contabilidad", "prerequisitos": ["02408"] },
+      { "codigo": "02412", "nombre": "PSICOSOCIOLOGIA DE LAS ORGANIZACIONES", "sector": "Gestión", "prerequisitos": ["02405", "02403"] },
+      { "codigo": "02417", "nombre": "DERECHO LABORAL Y PREVISIONAL", "sector": "Derecho", "prerequisitos": ["02409"] },
+      { "codigo": "00912", "nombre": "COMPUTACION NIVEL II", "sector": "Herramientas", "prerequisitos": ["00911"] },
+      { "codigo": "02418", "nombre": "ESTADOS CONTABLES", "sector": "Contabilidad", "prerequisitos": ["02410", "02413"] },
+      { "codigo": "02419", "nombre": "MATEMATICA FINANCIERA", "sector": "Matemática", "prerequisitos": ["02400"] },
+      { "codigo": "02428", "nombre": "ESTRUCTURA ECONOMICA ARGENTINA", "sector": "Economía", "prerequisitos": ["02416"] }
+    ],
+    [
+      { "codigo": "02415", "nombre": "SISTEMAS DE INFORMACION", "sector": "Sistemas", "prerequisitos": ["02405"] },
+      { "codigo": "02430", "nombre": "DERECHO COMERCIAL II", "sector": "Derecho", "prerequisitos": ["02413"] },
+      { "codigo": "02431", "nombre": "FINANZAS PUBLICAS", "sector": "Economía", "prerequisitos": ["02402", "02407", "02416"] },
+      { "codigo": "02432", "nombre": "COSTOS Y ACTIVIDADES ESPECIALES", "sector": "Contabilidad", "prerequisitos": ["02406", "02418"] },
+      { "codigo": "00903", "nombre": "INGLES NIVEL III", "sector": "Idiomas", "prerequisitos": ["00902"] },
+      { "codigo": "02425", "nombre": "ADMINISTRACION FINANCIERA", "sector": "Gestión", "prerequisitos": ["02415", "02419"] },
+      { "codigo": "02433", "nombre": "TEORIA Y TECNICA IMPOSITIVA I", "sector": "Impuestos", "prerequisitos": ["02418", "02431"] },
+      { "codigo": "02434", "nombre": "CONTABILIDAD Y ADMINISTRACION PUBLICA", "sector": "Contabilidad", "prerequisitos": ["02415", "02418", "02428", "02431"] }
+    ],
+    [
+      { "codigo": "02435", "nombre": "TEORIA Y TECNICA IMPOSITIVA II", "sector": "Impuestos", "prerequisitos": ["02418", "02431"] },
+      { "codigo": "02436", "nombre": "AUDITORIA", "sector": "Contabilidad", "prerequisitos": ["02425", "02430", "02432"] },
+      { "codigo": "00904", "nombre": "INGLES NIVEL IV", "sector": "Idiomas", "prerequisitos": ["00903"] },
+      { "codigo": "02530", "nombre": "SEMINARIO DE PRACTICA PROFESIONAL ADMINISTRATIVO CONTABLE", "sector": "Práctica Profesional", "prerequisitos": ["02412", "02417", "02434", "02435", "02436", "02433"] },
+      { "codigo": "02534", "nombre": "SEMINARIO DE PRACTICA PROFESIONAL JURIDICO CONTABLE", "sector": "Práctica Profesional", "prerequisitos": ["02412", "02417", "02434", "02435", "02436", "02433"] }
+    ]
+  ]
+}
